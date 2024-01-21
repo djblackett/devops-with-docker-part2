@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backend:
+    ports:
+      - "8080:8080"
+    environment:
+      REQUEST_ORIGIN: http://localhost:5000
+      REDIS_HOST: redis
+    depends_on:
+      - redis
+    build: example-backend
+    volumes:
+      - ./example-backend/:/usr/src/app/backend
+    container_name: web-backend
+
+  frontend:
+    ports:
+      - "5000:5000"
+    environment:
+      REACT_APP_BACKEND_URL: http://localhost:8080
+    build: example-frontend
+    volumes:
+      - ./example-backend:/usr/src/app/frontend
+    container_name: web-frontend
+
+  redis:
+    image: redis:7.2.1
+    restart: always
+    command: redis-server --loglevel warning
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+
