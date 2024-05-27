@@ -6,3 +6,5 @@ services:
     volumes:
       - ./text.log:/usr/src/app/text.log
     container_name: web-service
+    ports:
+      - "8080:8080"

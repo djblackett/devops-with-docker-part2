@@ -63,6 +63,11 @@ services:
     image: nginx:1.25.2
     hostname: proxy
     container_name: proxy
+    depends_on:
+      backend:
+        condition: service_started
+      frontend:
+        condition: service_started
     tty: true
     stdin_open: true
     volumes:
